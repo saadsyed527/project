@@ -1,0 +1,381 @@
+Rank,Stock_A,Stock_B,Correlation,Sector_A,Sector_B,Same_Sector,Overlap_Days
+1,USB,WFC,0.8506,Financials,Financials,True,1509
+2,CVX,XOM,0.842,Energy,Energy,True,1509
+3,COP,CVX,0.8257,Energy,Energy,True,1509
+4,C,JPM,0.8175,Financials,Financials,True,1509
+5,GS,MS,0.8175,Financials,Financials,True,1509
+6,BAC,C,0.8159,Financials,Financials,True,1509
+7,DUK,SO,0.8139,Utilities,Utilities,True,1509
+8,PLD,SPG,0.8087,Real Estate,Real Estate,True,1509
+9,BAC,JPM,0.8054,Financials,Financials,True,1509
+10,JPM,MS,0.8024,Financials,Financials,True,1509
+11,JPM,WFC,0.8021,Financials,Financials,True,1509
+12,AEP,DUK,0.7957,Utilities,Utilities,True,1509
+13,GS,JPM,0.7941,Financials,Financials,True,1509
+14,C,MS,0.7917,Financials,Financials,True,1509
+15,COP,XOM,0.7819,Energy,Energy,True,1509
+16,JPM,USB,0.7732,Financials,Financials,True,1509
+17,BAC,MS,0.772,Financials,Financials,True,1509
+18,AEP,SO,0.7693,Utilities,Utilities,True,1509
+19,O,SPG,0.7665,Real Estate,Real Estate,True,1509
+20,FDX,UPS,0.7609,Industrials,Industrials,True,1509
+21,BAC,WFC,0.7539,Financials,Financials,True,1509
+22,C,WFC,0.7523,Financials,Financials,True,1509
+23,HON,MMM,0.7501,Industrials,Industrials,True,1509
+24,HD,LOW,0.7492,Consumer Discretionary,Consumer Discretionary,True,1509
+25,APD,LIN,0.7457,Materials,Materials,True,1509
+26,C,GS,0.7432,Financials,Financials,True,1509
+27,DUK,NEE,0.7407,Utilities,Utilities,True,1509
+28,CVX,OXY,0.7389,Energy,Energy,True,1509
+29,AEP,NEE,0.7356,Utilities,Utilities,True,1509
+30,BAC,USB,0.7321,Financials,Financials,True,1509
+31,CAT,DE,0.7299,Industrials,Industrials,True,1509
+32,CAT,HON,0.729,Industrials,Industrials,True,1509
+33,OXY,SLB,0.7282,Energy,Energy,True,1509
+34,NEE,SO,0.7241,Utilities,Utilities,True,1509
+35,MS,WFC,0.7236,Financials,Financials,True,1509
+36,C,USB,0.7227,Financials,Financials,True,1509
+37,BAC,GS,0.7213,Financials,Financials,True,1509
+38,OXY,XOM,0.7201,Energy,Energy,True,1509
+39,COP,OXY,0.7174,Energy,Energy,True,1509
+40,EOG,OXY,0.7153,Energy,Energy,True,1509
+41,COP,SLB,0.7149,Energy,Energy,True,1509
+42,T,VZ,0.7141,Communication Services,Communication Services,True,1509
+43,COP,EOG,0.7127,Energy,Energy,True,1509
+44,MPC,PSX,0.7109,Energy,Energy,True,936
+45,F,GM,0.7102,Consumer Discretionary,Consumer Discretionary,True,1287
+46,CVX,SLB,0.7081,Energy,Energy,True,1509
+47,O,PLD,0.7068,Real Estate,Real Estate,True,1509
+48,BA,HON,0.7047,Industrials,Industrials,True,1509
+49,EOG,SLB,0.6997,Energy,Energy,True,1509
+50,MS,USB,0.6916,Financials,Financials,True,1509
+51,GE,HON,0.6912,Industrials,Industrials,True,1509
+52,GS,WFC,0.691,Financials,Financials,True,1509
+53,AMAT,TXN,0.686,Technology,Technology,True,1509
+54,SLB,XOM,0.686,Energy,Energy,True,1509
+55,AXP,USB,0.6859,Financials,Financials,True,1509
+56,CVX,EOG,0.6836,Energy,Energy,True,1509
+57,GE,MMM,0.6826,Industrials,Industrials,True,1509
+58,AXP,WFC,0.681,Financials,Financials,True,1509
+59,FDX,HON,0.6773,Industrials,Industrials,True,1509
+60,HON,UPS,0.6769,Industrials,Industrials,True,1509
+61,EOG,XOM,0.6736,Energy,Energy,True,1509
+62,BLK,JPM,0.6711,Financials,Financials,True,1509
+63,BLK,WFC,0.6679,Financials,Financials,True,1509
+64,GS,USB,0.6677,Financials,Financials,True,1509
+65,BLK,MS,0.6629,Financials,Financials,True,1509
+66,CL,PG,0.6626,Consumer Staples,Consumer Staples,True,1509
+67,SCHW,WFC,0.6601,Financials,Financials,True,1509
+68,CAT,MMM,0.6574,Industrials,Industrials,True,1509
+69,MS,SCHW,0.6569,Financials,Financials,True,1509
+70,SCHW,USB,0.656,Financials,Financials,True,1509
+71,DE,HON,0.6557,Industrials,Industrials,True,1509
+72,BLK,C,0.6544,Financials,Financials,True,1509
+73,AXP,JPM,0.6541,Financials,Financials,True,1509
+74,BLK,USB,0.6525,Financials,Financials,True,1509
+75,JPM,SCHW,0.6523,Financials,Financials,True,1509
+76,LIN,NUE,0.6479,Materials,Materials,True,1509
+77,BLK,SCHW,0.6463,Financials,Financials,True,1509
+78,AEP,EXC,0.6459,Utilities,Utilities,True,1509
+79,INTC,TXN,0.6451,Technology,Technology,True,1509
+80,MMM,UPS,0.6437,Industrials,Industrials,True,1509
+81,C,SCHW,0.6408,Financials,Financials,True,1509
+82,BLK,GS,0.6407,Financials,Financials,True,1509
+83,CAT,GE,0.6357,Industrials,Industrials,True,1509
+84,GS,SCHW,0.6351,Financials,Financials,True,1509
+85,CMCSA,DIS,0.6342,Communication Services,Communication Services,True,1509
+86,KO,PEP,0.6329,Consumer Staples,Consumer Staples,True,1509
+87,FCX,NUE,0.6315,Materials,Materials,True,1509
+88,BAC,BLK,0.6271,Financials,Financials,True,1509
+89,DUK,EXC,0.6257,Utilities,Utilities,True,1509
+90,HON,LMT,0.6228,Industrials,Industrials,True,1509
+91,FDX,MMM,0.6224,Industrials,Industrials,True,1509
+92,AXP,C,0.6207,Financials,Financials,True,1509
+93,BA,MMM,0.6187,Industrials,Industrials,True,1509
+94,EXC,SO,0.6168,Utilities,Utilities,True,1509
+95,EXC,NEE,0.6158,Utilities,Utilities,True,1509
+96,BAC,SCHW,0.6145,Financials,Financials,True,1509
+97,GE,UPS,0.6144,Industrials,Industrials,True,1509
+98,AXP,BLK,0.6132,Financials,Financials,True,1509
+99,AXP,BAC,0.6119,Financials,Financials,True,1509
+100,MRK,PFE,0.6115,Healthcare,Healthcare,True,1509
+101,FDX,GE,0.6096,Industrials,Industrials,True,1509
+102,CAT,FDX,0.6088,Industrials,Industrials,True,1509
+103,AXP,MS,0.6056,Financials,Financials,True,1509
+104,APD,NUE,0.6018,Materials,Materials,True,1509
+105,DE,MMM,0.5994,Industrials,Industrials,True,1509
+106,BA,LMT,0.5991,Industrials,Industrials,True,1509
+107,CAT,UPS,0.5977,Industrials,Industrials,True,1509
+108,AXP,GS,0.5968,Financials,Financials,True,1509
+109,AVGO,TXN,0.5932,Technology,Technology,True,1509
+110,JNJ,PFE,0.5906,Healthcare,Healthcare,True,1509
+111,ABT,JNJ,0.5895,Healthcare,Healthcare,True,1509
+112,DE,GE,0.5882,Industrials,Industrials,True,1509
+113,JNJ,MRK,0.588,Healthcare,Healthcare,True,1509
+114,BA,GE,0.5818,Industrials,Industrials,True,1509
+115,AMAT,INTC,0.5805,Technology,Technology,True,1509
+116,BA,UPS,0.5797,Industrials,Industrials,True,1509
+117,DE,FDX,0.5763,Industrials,Industrials,True,1509
+118,CL,PEP,0.5761,Consumer Staples,Consumer Staples,True,1509
+119,JNJ,MDT,0.5749,Healthcare,Healthcare,True,1509
+120,BA,FDX,0.5746,Industrials,Industrials,True,1509
+121,MU,TXN,0.5735,Technology,Technology,True,1509
+122,CL,KO,0.5734,Consumer Staples,Consumer Staples,True,1509
+123,AXP,SCHW,0.5729,Financials,Financials,True,1509
+124,FCX,LIN,0.5675,Materials,Materials,True,1509
+125,IBM,ORCL,0.5659,Technology,Technology,True,1509
+126,ABT,MDT,0.5627,Healthcare,Healthcare,True,1509
+127,PEP,PG,0.5614,Consumer Staples,Consumer Staples,True,1509
+128,LMT,MMM,0.5612,Industrials,Industrials,True,1509
+129,GIS,PEP,0.5608,Consumer Staples,Consumer Staples,True,1509
+130,DE,UPS,0.5602,Industrials,Industrials,True,1509
+131,BA,CAT,0.5559,Industrials,Industrials,True,1509
+132,KO,PG,0.5558,Consumer Staples,Consumer Staples,True,1509
+133,INTC,MSFT,0.5535,Technology,Technology,True,1509
+134,ABT,MRK,0.5518,Healthcare,Healthcare,True,1509
+135,ORCL,TXN,0.548,Technology,Technology,True,1509
+136,AMT,SPG,0.5464,Real Estate,Real Estate,True,1509
+137,MDT,PFE,0.542,Healthcare,Healthcare,True,1509
+138,ABT,PFE,0.5394,Healthcare,Healthcare,True,1509
+139,COP,PSX,0.5368,Energy,Energy,True,936
+140,AMAT,MU,0.5354,Technology,Technology,True,1509
+141,BA,DE,0.5352,Industrials,Industrials,True,1509
+142,COST,WMT,0.5341,Consumer Staples,Consumer Staples,True,1509
+143,CVX,PSX,0.5322,Energy,Energy,True,936
+144,QCOM,TXN,0.532,Technology,Technology,True,1509
+145,AMAT,AVGO,0.5312,Technology,Technology,True,1509
+146,AMT,PLD,0.5285,Real Estate,Real Estate,True,1509
+147,CL,GIS,0.5283,Consumer Staples,Consumer Staples,True,1509
+148,MDT,MRK,0.5247,Healthcare,Healthcare,True,1509
+149,LMT,UPS,0.5245,Industrials,Industrials,True,1509
+150,CVS,MDT,0.5242,Healthcare,Healthcare,True,1509
+151,HD,SBUX,0.524,Consumer Discretionary,Consumer Discretionary,True,1509
+152,ABT,BMY,0.5216,Healthcare,Healthcare,True,1509
+153,CVS,JNJ,0.5215,Healthcare,Healthcare,True,1509
+154,BMY,PFE,0.5205,Healthcare,Healthcare,True,1509
+155,F,HD,0.518,Consumer Discretionary,Consumer Discretionary,True,1509
+156,BMY,JNJ,0.5172,Healthcare,Healthcare,True,1509
+157,INTC,MU,0.5159,Technology,Technology,True,1509
+158,PSX,XOM,0.5149,Energy,Energy,True,936
+159,GIS,PG,0.5112,Consumer Staples,Consumer Staples,True,1509
+160,AMAT,ORCL,0.5109,Technology,Technology,True,1509
+161,FDX,LMT,0.5108,Industrials,Industrials,True,1509
+162,MSFT,ORCL,0.5099,Technology,Technology,True,1509
+163,AMZN,BKNG,0.5097,Consumer Discretionary,Consumer Discretionary,True,1509
+164,MSFT,TXN,0.5096,Technology,Technology,True,1509
+165,LIN,SHW,0.5092,Materials,Materials,True,1509
+166,CSCO,TXN,0.5082,Technology,Technology,True,1509
+167,IBM,MSFT,0.508,Technology,Technology,True,1509
+168,CSCO,ORCL,0.5048,Technology,Technology,True,1509
+169,MDT,UNH,0.5047,Healthcare,Healthcare,True,1509
+170,IBM,INTC,0.5047,Technology,Technology,True,1509
+171,MCD,SBUX,0.5043,Consumer Discretionary,Consumer Discretionary,True,1509
+172,GIS,KO,0.5036,Consumer Staples,Consumer Staples,True,1509
+173,HD,TGT,0.5015,Consumer Discretionary,Consumer Discretionary,True,1509
+174,DIS,T,0.4991,Communication Services,Communication Services,True,1509
+175,CVX,MPC,0.4987,Energy,Energy,True,1137
+176,CVS,PFE,0.4984,Healthcare,Healthcare,True,1509
+177,NKE,SBUX,0.4978,Consumer Discretionary,Consumer Discretionary,True,1509
+178,GE,LMT,0.4974,Industrials,Industrials,True,1509
+179,INTC,ORCL,0.4973,Technology,Technology,True,1509
+180,ABBV,JNJ,0.4964,Healthcare,Healthcare,True,755
+181,MPC,OXY,0.4923,Energy,Energy,True,1137
+182,APD,FCX,0.4916,Materials,Materials,True,1509
+183,AMT,O,0.4914,Real Estate,Real Estate,True,1509
+184,IBM,TXN,0.4909,Technology,Technology,True,1509
+185,HD,NKE,0.4881,Consumer Discretionary,Consumer Discretionary,True,1509
+186,CAT,LMT,0.4825,Industrials,Industrials,True,1509
+187,EOG,PSX,0.4821,Energy,Energy,True,936
+188,MPC,XOM,0.4818,Energy,Energy,True,1137
+189,F,SBUX,0.4814,Consumer Discretionary,Consumer Discretionary,True,1509
+190,LOW,TGT,0.4812,Consumer Discretionary,Consumer Discretionary,True,1509
+191,BMY,MRK,0.4775,Healthcare,Healthcare,True,1509
+192,ADBE,ORCL,0.4773,Technology,Technology,True,1509
+193,F,LOW,0.477,Consumer Discretionary,Consumer Discretionary,True,1509
+194,APD,SHW,0.4753,Materials,Materials,True,1509
+195,ADBE,TXN,0.4753,Technology,Technology,True,1509
+196,MPC,SLB,0.4744,Energy,Energy,True,1137
+197,ORCL,QCOM,0.4738,Technology,Technology,True,1509
+198,CSCO,INTC,0.4732,Technology,Technology,True,1509
+199,ABT,CVS,0.4731,Healthcare,Healthcare,True,1509
+200,AMAT,MSFT,0.4722,Technology,Technology,True,1509
+201,ADBE,AMAT,0.4721,Technology,Technology,True,1509
+202,CSCO,MSFT,0.472,Technology,Technology,True,1509
+203,LOW,SBUX,0.4717,Consumer Discretionary,Consumer Discretionary,True,1509
+204,COP,MPC,0.4698,Energy,Energy,True,1137
+205,AMAT,QCOM,0.4696,Technology,Technology,True,1509
+206,AMAT,CSCO,0.4687,Technology,Technology,True,1509
+207,PFE,UNH,0.4679,Healthcare,Healthcare,True,1509
+208,JNJ,UNH,0.4676,Healthcare,Healthcare,True,1509
+209,ADBE,CRM,0.4668,Technology,Technology,True,1509
+210,CMCSA,T,0.4656,Communication Services,Communication Services,True,1509
+211,MCD,NKE,0.4655,Consumer Discretionary,Consumer Discretionary,True,1509
+212,CSCO,IBM,0.4652,Technology,Technology,True,1509
+213,CVS,MRK,0.4635,Healthcare,Healthcare,True,1509
+214,CRM,TXN,0.4632,Technology,Technology,True,1509
+215,CL,COST,0.4612,Consumer Staples,Consumer Staples,True,1509
+216,EQIX,PLD,0.4607,Real Estate,Real Estate,True,1509
+217,AMAT,IBM,0.46,Technology,Technology,True,1509
+218,OXY,PSX,0.4589,Energy,Energy,True,936
+219,FCX,NEM,0.4584,Materials,Materials,True,1509
+220,CRM,ORCL,0.4569,Technology,Technology,True,1509
+221,HD,MCD,0.4564,Consumer Discretionary,Consumer Discretionary,True,1509
+222,INTC,QCOM,0.4554,Technology,Technology,True,1509
+223,BMY,MDT,0.4548,Healthcare,Healthcare,True,1509
+224,AVGO,INTC,0.4545,Technology,Technology,True,1509
+225,PSX,SLB,0.4536,Energy,Energy,True,936
+226,COST,PEP,0.4533,Consumer Staples,Consumer Staples,True,1509
+227,COST,PG,0.4526,Consumer Staples,Consumer Staples,True,1509
+228,DE,LMT,0.4524,Industrials,Industrials,True,1509
+229,COST,KO,0.4522,Consumer Staples,Consumer Staples,True,1509
+230,F,NKE,0.4512,Consumer Discretionary,Consumer Discretionary,True,1509
+231,PG,WMT,0.4493,Consumer Staples,Consumer Staples,True,1509
+232,AVGO,QCOM,0.4484,Technology,Technology,True,1509
+233,ABBV,MDT,0.4482,Healthcare,Healthcare,True,755
+234,EOG,MPC,0.4478,Energy,Energy,True,1137
+235,DIS,VZ,0.4476,Communication Services,Communication Services,True,1509
+236,NUE,SHW,0.4462,Materials,Materials,True,1509
+237,CMCSA,VZ,0.4456,Communication Services,Communication Services,True,1509
+238,ADBE,MSFT,0.4454,Technology,Technology,True,1509
+239,LOW,NKE,0.4449,Consumer Discretionary,Consumer Discretionary,True,1509
+240,COST,GIS,0.4445,Consumer Staples,Consumer Staples,True,1509
+241,GOOG,MSFT,0.4445,Technology,Technology,True,1509
+242,GM,HD,0.4412,Consumer Discretionary,Consumer Discretionary,True,1287
+243,CL,WMT,0.4381,Consumer Staples,Consumer Staples,True,1509
+244,GOOGL,MSFT,0.436,Technology,Technology,True,1509
+245,PEP,WMT,0.4344,Consumer Staples,Consumer Staples,True,1509
+246,ABBV,ABT,0.4329,Healthcare,Healthcare,True,755
+247,AMT,EQIX,0.4327,Real Estate,Real Estate,True,1509
+248,ABT,UNH,0.4324,Healthcare,Healthcare,True,1509
+249,AVGO,MU,0.4313,Technology,Technology,True,1509
+250,BKNG,SBUX,0.431,Consumer Discretionary,Consumer Discretionary,True,1509
+251,ABBV,PFE,0.4298,Healthcare,Healthcare,True,755
+252,AMAT,CRM,0.4293,Technology,Technology,True,1509
+253,AAPL,TXN,0.429,Technology,Technology,True,1509
+254,AMZN,SBUX,0.4282,Consumer Discretionary,Consumer Discretionary,True,1509
+255,GOOG,TXN,0.4281,Technology,Technology,True,1509
+256,GOOGL,TXN,0.428,Technology,Technology,True,1509
+257,EQIX,SPG,0.4279,Real Estate,Real Estate,True,1509
+258,MSFT,QCOM,0.4274,Technology,Technology,True,1509
+259,KO,WMT,0.4256,Consumer Staples,Consumer Staples,True,1509
+260,CVS,UNH,0.4256,Healthcare,Healthcare,True,1509
+261,ABBV,BMY,0.425,Healthcare,Healthcare,True,755
+262,ABBV,MRK,0.4224,Healthcare,Healthcare,True,755
+263,IBM,QCOM,0.4218,Technology,Technology,True,1509
+264,GOOGL,ORCL,0.4218,Technology,Technology,True,1509
+265,GOOG,ORCL,0.4216,Technology,Technology,True,1509
+266,MU,QCOM,0.4206,Technology,Technology,True,1509
+267,GILD,PFE,0.4203,Healthcare,Healthcare,True,1509
+268,GILD,MDT,0.4202,Healthcare,Healthcare,True,1509
+269,ADBE,IBM,0.4194,Technology,Technology,True,1509
+270,GILD,JNJ,0.4191,Healthcare,Healthcare,True,1509
+271,BKNG,F,0.4189,Consumer Discretionary,Consumer Discretionary,True,1509
+272,ABT,GILD,0.4164,Healthcare,Healthcare,True,1509
+273,GOOGL,IBM,0.4161,Technology,Technology,True,1509
+274,ADBE,INTC,0.4148,Technology,Technology,True,1509
+275,NKE,TGT,0.4142,Consumer Discretionary,Consumer Discretionary,True,1509
+276,AAPL,AMAT,0.4141,Technology,Technology,True,1509
+277,AVGO,CRM,0.4134,Technology,Technology,True,1509
+278,GILD,MRK,0.4134,Healthcare,Healthcare,True,1509
+279,GOOG,IBM,0.4134,Technology,Technology,True,1509
+280,MU,ORCL,0.4128,Technology,Technology,True,1509
+281,AVGO,ORCL,0.4118,Technology,Technology,True,1509
+282,GM,LOW,0.4116,Consumer Discretionary,Consumer Discretionary,True,1287
+283,CSCO,MU,0.4079,Technology,Technology,True,1509
+284,ADBE,MU,0.4072,Technology,Technology,True,1509
+285,F,TGT,0.4066,Consumer Discretionary,Consumer Discretionary,True,1509
+286,AAPL,GOOG,0.4051,Technology,Technology,True,1509
+287,AAPL,GOOGL,0.4038,Technology,Technology,True,1509
+288,ADBE,GOOGL,0.4037,Technology,Technology,True,1509
+289,AAPL,AVGO,0.4024,Technology,Technology,True,1509
+290,MRK,UNH,0.4021,Healthcare,Healthcare,True,1509
+291,AMZN,F,0.4019,Consumer Discretionary,Consumer Discretionary,True,1509
+292,ADBE,GOOG,0.4001,Technology,Technology,True,1509
+293,AAPL,IBM,0.3978,Technology,Technology,True,1509
+294,GM,SBUX,0.3975,Consumer Discretionary,Consumer Discretionary,True,1287
+295,GIS,WMT,0.3973,Consumer Staples,Consumer Staples,True,1509
+296,CRM,CSCO,0.3971,Technology,Technology,True,1509
+297,F,MCD,0.3969,Consumer Discretionary,Consumer Discretionary,True,1509
+298,CRM,MU,0.3955,Technology,Technology,True,1509
+299,BKNG,NKE,0.3953,Consumer Discretionary,Consumer Discretionary,True,1509
+300,ADBE,CSCO,0.3952,Technology,Technology,True,1509
+301,CSCO,QCOM,0.3943,Technology,Technology,True,1509
+302,GOOG,QCOM,0.3939,Technology,Technology,True,1509
+303,GM,NKE,0.3932,Consumer Discretionary,Consumer Discretionary,True,1287
+304,GOOGL,QCOM,0.393,Technology,Technology,True,1509
+305,CRM,IBM,0.3925,Technology,Technology,True,1509
+306,AMAT,GOOG,0.3924,Technology,Technology,True,1509
+307,AAPL,ORCL,0.3921,Technology,Technology,True,1509
+308,CRM,INTC,0.3917,Technology,Technology,True,1509
+309,AMAT,GOOGL,0.3903,Technology,Technology,True,1509
+310,SBUX,TGT,0.3876,Consumer Discretionary,Consumer Discretionary,True,1509
+311,MSFT,MU,0.3867,Technology,Technology,True,1509
+312,CRM,GOOGL,0.3867,Technology,Technology,True,1509
+313,MCD,TGT,0.3843,Consumer Discretionary,Consumer Discretionary,True,1509
+314,AAPL,INTC,0.3832,Technology,Technology,True,1509
+315,AAPL,QCOM,0.3831,Technology,Technology,True,1509
+316,ADBE,QCOM,0.3829,Technology,Technology,True,1509
+317,CRM,GOOG,0.3818,Technology,Technology,True,1509
+318,AVGO,CSCO,0.3813,Technology,Technology,True,1509
+319,CRM,MSFT,0.3806,Technology,Technology,True,1509
+320,BMY,UNH,0.3801,Healthcare,Healthcare,True,1509
+321,AAPL,MSFT,0.3794,Technology,Technology,True,1509
+322,CRM,QCOM,0.3792,Technology,Technology,True,1509
+323,LOW,MCD,0.3789,Consumer Discretionary,Consumer Discretionary,True,1509
+324,AMZN,HD,0.3788,Consumer Discretionary,Consumer Discretionary,True,1509
+325,IBM,MU,0.3771,Technology,Technology,True,1509
+326,BMY,GILD,0.3721,Healthcare,Healthcare,True,1509
+327,BKNG,GM,0.3709,Consumer Discretionary,Consumer Discretionary,True,1287
+328,GOOG,MU,0.3688,Technology,Technology,True,1509
+329,GOOGL,MU,0.3684,Technology,Technology,True,1509
+330,AMZN,NKE,0.3682,Consumer Discretionary,Consumer Discretionary,True,1509
+331,ABBV,CVS,0.368,Healthcare,Healthcare,True,755
+332,ABBV,GILD,0.3672,Healthcare,Healthcare,True,755
+333,CSCO,GOOGL,0.3666,Technology,Technology,True,1509
+334,AVGO,IBM,0.3657,Technology,Technology,True,1509
+335,CSCO,GOOG,0.3652,Technology,Technology,True,1509
+336,AAPL,CSCO,0.3619,Technology,Technology,True,1509
+337,GOOG,INTC,0.3618,Technology,Technology,True,1509
+338,BKNG,HD,0.3617,Consumer Discretionary,Consumer Discretionary,True,1509
+339,GOOGL,INTC,0.3604,Technology,Technology,True,1509
+340,ADBE,AVGO,0.3591,Technology,Technology,True,1509
+341,AVGO,MSFT,0.3581,Technology,Technology,True,1509
+342,EQIX,O,0.358,Real Estate,Real Estate,True,1509
+343,BMY,CVS,0.3568,Healthcare,Healthcare,True,1509
+344,AAPL,MU,0.35,Technology,Technology,True,1509
+345,GM,MCD,0.3492,Consumer Discretionary,Consumer Discretionary,True,1287
+346,AMZN,LOW,0.3467,Consumer Discretionary,Consumer Discretionary,True,1509
+347,CVS,GILD,0.3446,Healthcare,Healthcare,True,1509
+348,AMZN,MCD,0.3441,Consumer Discretionary,Consumer Discretionary,True,1509
+349,AVGO,GOOG,0.3434,Technology,Technology,True,1509
+350,BKNG,MCD,0.3432,Consumer Discretionary,Consumer Discretionary,True,1509
+351,AVGO,GOOGL,0.3413,Technology,Technology,True,1509
+352,DIS,TMUS,0.3356,Communication Services,Communication Services,True,1509
+353,FCX,SHW,0.3332,Materials,Materials,True,1509
+354,GILD,UNH,0.3298,Healthcare,Healthcare,True,1509
+355,CMCSA,TMUS,0.3275,Communication Services,Communication Services,True,1509
+356,ABBV,UNH,0.3274,Healthcare,Healthcare,True,755
+357,GM,TGT,0.3252,Consumer Discretionary,Consumer Discretionary,True,1287
+358,AAPL,ADBE,0.3223,Technology,Technology,True,1509
+359,AMZN,GM,0.3212,Consumer Discretionary,Consumer Discretionary,True,1287
+360,AAPL,CRM,0.3206,Technology,Technology,True,1509
+361,BKNG,LOW,0.3202,Consumer Discretionary,Consumer Discretionary,True,1509
+362,NEM,NUE,0.3181,Materials,Materials,True,1509
+363,AMZN,TGT,0.2991,Consumer Discretionary,Consumer Discretionary,True,1509
+364,BKNG,TGT,0.299,Consumer Discretionary,Consumer Discretionary,True,1509
+365,TMUS,VZ,0.2944,Communication Services,Communication Services,True,1509
+366,T,TMUS,0.2936,Communication Services,Communication Services,True,1509
+367,LIN,NEM,0.2564,Materials,Materials,True,1509
+368,DIS,META,0.2266,Communication Services,Communication Services,True,910
+369,APD,NEM,0.2154,Materials,Materials,True,1509
+370,DIS,NFLX,0.1975,Communication Services,Communication Services,True,1509
+371,CMCSA,NFLX,0.1786,Communication Services,Communication Services,True,1509
+372,NEM,SHW,0.1634,Materials,Materials,True,1509
+373,CMCSA,META,0.1616,Communication Services,Communication Services,True,910
+374,META,NFLX,0.1479,Communication Services,Communication Services,True,910
+375,META,VZ,0.1348,Communication Services,Communication Services,True,910
+376,NFLX,TMUS,0.122,Communication Services,Communication Services,True,1509
+377,META,T,0.1055,Communication Services,Communication Services,True,910
+378,NFLX,T,0.1041,Communication Services,Communication Services,True,1509
+379,NFLX,VZ,0.0945,Communication Services,Communication Services,True,1509
+380,META,TMUS,0.0684,Communication Services,Communication Services,True,910

@@ -1,0 +1,1112 @@
+
+# =============================================================================
+# US EQUITY MARKET DATA: EXPLORATORY DATA ANALYSIS (2010-2015)
+# =============================================================================
+#
+# PROJECT OVERVIEW
+# Downloads daily historical market data for selected US stocks and four
+# market benchmarks, cleans and combines the data, calculates returns,
+# performs exploratory analysis, creates visualizations, and exports datasets.
+#
+# DATA PERIOD: January 1, 2010 - December 31, 2015
+#
+# DATA SOURCE: Yahoo Finance (through yfinance)
+#
+# IMPORTANT:
+# This is historical descriptive analysis, not a trading recommendation.
+# Returns use Adjusted Close to account for adjustments represented in Yahoo's
+# historical data.
+# =============================================================================
+
+
+# =============================================================================
+# 1. INSTALLATION AND IMPORTS
+# =============================================================================
+# In Google Colab, uncomment and run this line if packages are not installed.
+#
+# !pip install -q yfinance pandas numpy matplotlib seaborn plotly scipy pyarrow
+#
+# Libraries:
+# yfinance  = downloads historical stock market data
+# pandas    = organizes and analyzes tabular data
+# numpy     = numerical calculations
+# matplotlib = creates charts
+# seaborn   = creates statistical visualizations
+# plotly    = interactive visualization library
+# scipy     = statistical functions
+
+import yfinance as yf
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+import plotly.graph_objects as go
+
+from datetime import datetime
+from scipy import stats
+
+
+# =============================================================================
+# 2. GLOBAL CONFIGURATION
+# =============================================================================
+# Define the date range and general chart settings.
+# END_DATE is exclusive, so January 1, 2016 includes data through 2015-12-31.
+
+START_DATE = "2010-01-01"
+END_DATE = "2016-01-01"
+
+sns.set_theme(style="whitegrid")
+plt.rcParams["figure.figsize"] = (14, 6)
+
+pd.set_option("display.max_columns", 30)
+pd.set_option("display.width", 150)
+
+print("Environment initialized.")
+print(f"Analysis period: {START_DATE} to 2015-12-31")
+
+
+# =============================================================================
+# 3. DEFINE STOCK UNIVERSE AND MARKET BENCHMARKS
+# =============================================================================
+# Each list contains stock ticker symbols.
+# Stocks are grouped into 11 broad industry sectors.
+#
+# A ticker is the short symbol used to identify a publicly traded security.
+# sector_universes is a dictionary mapping sector names to ticker lists.
+#
+# This is a manually selected research universe, not every company in each
+# sector or a historical index constituent list.
+
+technology = [
+    "AAPL", "MSFT", "GOOGL", "GOOG", "IBM",
+    "ORCL", "INTC", "CSCO", "QCOM", "TXN",
+    "AVGO", "ADBE", "CRM", "AMAT", "MU"
+]
+
+financials = [
+    "JPM", "BAC", "WFC", "C", "GS",
+    "MS", "BLK", "SCHW", "AXP", "USB"
+]
+
+healthcare = [
+    "JNJ", "PFE", "MRK", "ABBV", "UNH",
+    "CVS", "ABT", "MDT", "BMY", "GILD"
+]
+
+consumer_discretionary = [
+    "AMZN", "HD", "MCD", "NKE", "SBUX",
+    "LOW", "TGT", "BKNG", "F", "GM"
+]
+
+consumer_staples = [
+    "WMT", "COST", "KO", "PEP", "PG",
+    "CL", "KHC", "GIS"
+]
+
+energy = [
+    "XOM", "CVX", "COP", "SLB", "EOG",
+    "OXY", "PSX", "MPC"
+]
+
+industrials = [
+    "GE", "CAT", "BA", "HON", "UPS",
+    "FDX", "DE", "LMT", "MMM"
+]
+
+materials = [
+    "LIN", "APD", "SHW", "NEM", "FCX",
+    "NUE", "DOW"
+]
+
+utilities = [
+    "NEE", "DUK", "SO", "AEP", "EXC"
+]
+
+real_estate = [
+    "AMT", "PLD", "SPG", "O", "EQIX"
+]
+
+communication_services = [
+    "META", "NFLX", "DIS", "CMCSA", "VZ",
+    "T", "TMUS"
+]
+
+sector_universes = {
+    "Technology": technology,
+    "Financials": financials,
+    "Healthcare": healthcare,
+    "Consumer Discretionary": consumer_discretionary,
+    "Consumer Staples": consumer_staples,
+    "Energy": energy,
+    "Industrials": industrials,
+    "Materials": materials,
+    "Utilities": utilities,
+    "Real Estate": real_estate,
+    "Communication Services": communication_services
+}
+
+# Combine all sector lists into one sorted list.
+# set() removes duplicate ticker symbols.
+tickers = sorted(set(
+    ticker
+    for sector in sector_universes.values()
+    for ticker in sector
+))
+
+# Market benchmarks:
+# SPY = S&P 500 ETF
+# QQQ = Nasdaq-100 ETF
+# IWM = Russell 2000 ETF
+# DIA = Dow Jones Industrial Average ETF
+
+benchmarks = ["SPY", "QQQ", "IWM", "DIA"]
+
+# Combine individual stocks and benchmarks for downloading.
+download_tickers = tickers + benchmarks
+
+print("Number of stocks:", len(tickers))
+print("Number of sectors:", len(sector_universes))
+print("Number of benchmarks:", len(benchmarks))
+print("Total tickers to download:", len(download_tickers))
+
+for sector, stocks in sector_universes.items():
+    print(f"{sector}: {len(stocks)} stocks")
+
+
+# =============================================================================
+# 4. DOWNLOAD DAILY HISTORICAL MARKET DATA
+# =============================================================================
+# Download daily data for every ticker using Yahoo Finance.
+#
+# Data fields generally include:
+# Open       = opening price
+# High       = highest price during the trading day
+# Low        = lowest price during the trading day
+# Close      = unadjusted closing price
+# Adj Close  = adjusted closing price
+# Volume     = number of shares traded
+# Dividends  = dividend payments recorded for that date
+# Stock Splits = stock split information
+#
+# data is a dictionary:
+# Key   = ticker symbol
+# Value = pandas DataFrame containing that ticker's daily data
+#
+# failed_tickers records symbols that could not be downloaded.
+
+data = {}
+failed_tickers = []
+
+for ticker in download_tickers:
+    try:
+        df = yf.download(
+            ticker,
+            start=START_DATE,
+            end=END_DATE,
+            interval="1d",
+            auto_adjust=False,
+            actions=True,
+            repair=True,
+            progress=False,
+            threads=False
+        )
+
+        if df.empty:
+            failed_tickers.append(ticker)
+            print(f"FAILED: {ticker} - No data returned")
+            continue
+
+        # Newer yfinance versions may return MultiIndex columns.
+        # Flatten these into ordinary column names.
+        if isinstance(df.columns, pd.MultiIndex):
+            if ticker in df.columns.get_level_values(-1):
+                df = df.xs(ticker, axis=1, level=-1)
+            elif ticker in df.columns.get_level_values(0):
+                df = df.xs(ticker, axis=1, level=0)
+            else:
+                df.columns = df.columns.get_level_values(0)
+
+        # Remove duplicate column names if they exist.
+        df = df.loc[:, ~df.columns.duplicated()]
+
+        data[ticker] = df
+        print(f"Downloaded {ticker}: {len(df)} rows")
+
+    except Exception as error:
+        failed_tickers.append(ticker)
+        print(f"ERROR: {ticker} - {error}")
+
+print("\nDOWNLOAD SUMMARY")
+print("----------------")
+print("Successful:", len(data))
+print("Failed:", len(failed_tickers))
+print("Failed tickers:", failed_tickers)
+
+if not data:
+    raise RuntimeError(
+        "No ticker data was downloaded. Check the internet connection, "
+        "Yahoo Finance availability, and ticker symbols."
+    )
+
+
+# =============================================================================
+# 5. INSPECT RAW DATA FOR ONE STOCK
+# =============================================================================
+# Inspect AAPL as an example of the raw downloaded data.
+# If AAPL is unavailable, inspect the first successfully downloaded ticker.
+
+inspection_ticker = "AAPL" if "AAPL" in data else next(iter(data))
+
+print(f"\nExample raw data: {inspection_ticker}")
+display(data[inspection_ticker].head(10))
+
+print("\nDataset information:")
+data[inspection_ticker].info()
+
+print("\nColumn names:")
+print(data[inspection_ticker].columns.tolist())
+
+print("\nDate range:")
+print(data[inspection_ticker].index.min())
+print(data[inspection_ticker].index.max())
+
+
+# =============================================================================
+# 6. COMBINE ALL TICKERS INTO ONE DATAFRAME
+# =============================================================================
+# Originally, each ticker has its own DataFrame inside the data dictionary.
+# This section combines them into one large table.
+#
+# Each row represents one ticker on one trading date.
+#
+# Added columns:
+# Ticker = stock or ETF symbol
+# Date   = trading date
+#
+# market_data is the main dataset used throughout the analysis.
+
+frames = []
+
+for ticker, df in data.items():
+    temp = df.copy()
+    temp["Ticker"] = ticker
+    temp["Date"] = temp.index
+    frames.append(temp)
+
+market_data = pd.concat(frames, ignore_index=True)
+market_data["Date"] = pd.to_datetime(market_data["Date"])
+
+# Sort observations chronologically for each ticker.
+market_data = market_data.sort_values(
+    ["Ticker", "Date"]
+).reset_index(drop=True)
+
+print("Dataset dimensions (rows, columns):", market_data.shape)
+display(market_data.head(10))
+
+
+# =============================================================================
+# 7. ASSIGN EACH TICKER TO ITS SECTOR
+# =============================================================================
+# Create a dictionary that maps each ticker to its industry sector.
+# Add a Sector column to the main dataset.
+#
+# Benchmark ETFs are assigned the label "Benchmark".
+
+sector_mapping = {
+    ticker: sector
+    for sector, stocks in sector_universes.items()
+    for ticker in stocks
+}
+
+market_data["Sector"] = market_data["Ticker"].map(sector_mapping)
+
+market_data.loc[
+    market_data["Ticker"].isin(benchmarks),
+    "Sector"
+] = "Benchmark"
+
+display(
+    market_data[
+        ["Date", "Ticker", "Sector", "Close", "Volume"]
+    ].head(15)
+)
+
+print("\nSector distribution (unique ticker count):")
+print(market_data.groupby("Sector")["Ticker"].nunique())
+
+
+# =============================================================================
+# 8. MISSING VALUE ANALYSIS
+# =============================================================================
+# Check how many values are missing in each column.
+#
+# Missing Count = number of missing cells
+# Missing Percentage = percentage of rows missing that field
+#
+# NaN represents a missing or unavailable value.
+
+missing_report = pd.DataFrame({
+    "Missing Count": market_data.isnull().sum(),
+    "Missing Percentage": market_data.isnull().mean() * 100
+})
+
+display(
+    missing_report.sort_values(
+        "Missing Percentage",
+        ascending=False
+    )
+)
+
+
+# =============================================================================
+# 9. DATA COVERAGE AND MISSING PRICES BY TICKER
+# =============================================================================
+# Calculate data availability for every ticker.
+#
+# Observations   = number of daily rows available
+# First_Date     = first available date
+# Last_Date      = last available date
+# Missing_Close  = missing closing prices
+# Missing_Volume = missing trading volume values
+# Coverage_Percentage = ticker observations relative to total unique dates
+#
+# This helps identify stocks with shorter or incomplete data histories.
+
+ticker_quality = market_data.groupby("Ticker").agg(
+    Observations=("Date", "count"),
+    First_Date=("Date", "min"),
+    Last_Date=("Date", "max"),
+    Missing_Close=("Close", lambda values: values.isna().sum()),
+    Missing_Volume=("Volume", lambda values: values.isna().sum())
+)
+
+ticker_quality["Coverage_Percentage"] = (
+    ticker_quality["Observations"] /
+    market_data["Date"].nunique() * 100
+)
+
+display(
+    ticker_quality.sort_values(
+        "Coverage_Percentage",
+        ascending=True
+    )
+)
+
+
+# =============================================================================
+# 10. CHECK FOR DUPLICATE TICKER-DATE OBSERVATIONS
+# =============================================================================
+# Check whether the same ticker has more than one row for the same date.
+# Duplicate observations can distort calculations and counts.
+
+duplicate_count = market_data.duplicated(
+    subset=["Date", "Ticker"]
+).sum()
+
+print("Duplicate observations:", duplicate_count)
+print("Unique tickers:", market_data["Ticker"].nunique())
+print("Unique trading dates:", market_data["Date"].nunique())
+
+print("\nOverall date range:")
+print("Start:", market_data["Date"].min())
+print("End:", market_data["Date"].max())
+
+
+# =============================================================================
+# 11. NUMBER OF OBSERVATIONS PER STOCK
+# =============================================================================
+# Count the number of daily observations available for each ticker.
+#
+# observations is a pandas Series:
+# Index = ticker symbol
+# Value = number of observations
+#
+# The bar chart makes it easier to identify stocks with shorter histories.
+
+observations = (
+    market_data.groupby("Ticker")
+    .size()
+    .sort_values(ascending=False)
+)
+
+plt.figure(figsize=(18, 7))
+sns.barplot(x=observations.index, y=observations.values)
+plt.xticks(rotation=90)
+plt.title("Historical Observations Per Stock")
+plt.xlabel("Ticker")
+plt.ylabel("Number of Daily Observations")
+plt.tight_layout()
+plt.show()
+
+
+# =============================================================================
+# 12. CALCULATE DAILY AND LOG RETURNS
+# =============================================================================
+# Calculate daily percentage returns using Adjusted Close.
+#
+# Daily_Return = (Today's Adjusted Close / Yesterday's Adjusted Close) - 1
+#
+# Log_Return = ln(Today's Adjusted Close / Yesterday's Adjusted Close)
+#
+# Both are decimal returns:
+# 0.01  = approximately +1%
+# -0.02 = approximately -2%
+#
+# The first observation for each ticker has no previous price, so its return
+# is NaN. groupby ensures each ticker is calculated independently.
+
+market_data = market_data.sort_values(
+    ["Ticker", "Date"]
+).copy()
+
+market_data["Daily_Return"] = (
+    market_data.groupby("Ticker")["Adj Close"]
+    .pct_change(fill_method=None)
+)
+
+market_data["Log_Return"] = np.log(
+    market_data["Adj Close"] /
+    market_data.groupby("Ticker")["Adj Close"].shift(1)
+)
+
+display(
+    market_data[
+        ["Date", "Ticker", "Adj Close", "Daily_Return", "Log_Return"]
+    ].head(15)
+)
+
+
+# =============================================================================
+# 13. CALCULATE EXCESS RETURNS RELATIVE TO SPY
+# =============================================================================
+# SPY is used as the S&P 500 benchmark.
+#
+# SPY_Return = daily return of SPY
+# Excess_Return = ticker's Daily_Return - SPY_Return
+#
+# Positive excess return means the ticker outperformed SPY that day.
+# Negative excess return means the ticker underperformed SPY that day.
+#
+# This is a simple benchmark-relative return, not a risk-adjusted alpha model.
+
+spy_returns = (
+    market_data[
+        market_data["Ticker"] == "SPY"
+    ][["Date", "Daily_Return"]]
+    .rename(columns={"Daily_Return": "SPY_Return"})
+)
+
+market_data = market_data.merge(
+    spy_returns,
+    on="Date",
+    how="left"
+)
+
+market_data["Excess_Return"] = (
+    market_data["Daily_Return"] - market_data["SPY_Return"]
+)
+
+display(
+    market_data[
+        ["Date", "Ticker", "Daily_Return", "SPY_Return", "Excess_Return"]
+    ].head(15)
+)
+
+
+# =============================================================================
+# 14. SUMMARY STATISTICS FOR DAILY RETURNS
+# =============================================================================
+# Calculate descriptive statistics for each ticker's daily returns.
+#
+# Observations             = number of non-missing returns
+# Mean_Return              = average daily return
+# Median_Return            = median daily return
+# Std_Return               = standard deviation of daily returns
+# Min_Return               = smallest daily return
+# Max_Return               = largest daily return
+# Skewness                 = asymmetry of return distribution
+# Kurtosis                 = tail-weight measure
+# Annualized_Mean_Return   = average daily return multiplied by 252
+# Annualized_Volatility    = daily standard deviation multiplied by sqrt(252)
+#
+# 252 is the approximate number of US trading days in one year.
+
+return_summary = market_data.groupby("Ticker").agg(
+    Observations=("Daily_Return", "count"),
+    Mean_Return=("Daily_Return", "mean"),
+    Median_Return=("Daily_Return", "median"),
+    Std_Return=("Daily_Return", "std"),
+    Min_Return=("Daily_Return", "min"),
+    Max_Return=("Daily_Return", "max"),
+    Skewness=("Daily_Return", "skew"),
+    Kurtosis=("Daily_Return", lambda values: values.kurtosis())
+)
+
+return_summary["Annualized_Mean_Return"] = (
+    return_summary["Mean_Return"] * 252
+)
+
+return_summary["Annualized_Volatility"] = (
+    return_summary["Std_Return"] * np.sqrt(252)
+)
+
+return_summary = return_summary.sort_values(
+    "Annualized_Mean_Return",
+    ascending=False
+)
+
+display(return_summary.round(4))
+
+
+# =============================================================================
+# 15. COMPARE MARKET BENCHMARK PERFORMANCE
+# =============================================================================
+# Compare SPY, QQQ, IWM, and DIA.
+#
+# Normalized_Price = Adjusted Close / first Adjusted Close * 100
+#
+# Each benchmark starts at 100, making their relative performance easier
+# to compare even though their original share prices differ.
+
+benchmark_data = market_data[
+    market_data["Ticker"].isin(benchmarks)
+].copy()
+
+benchmark_data["Normalized_Price"] = (
+    benchmark_data.groupby("Ticker")["Adj Close"]
+    .transform(lambda values: values / values.dropna().iloc[0] * 100)
+)
+
+plt.figure(figsize=(16, 8))
+sns.lineplot(
+    data=benchmark_data,
+    x="Date",
+    y="Normalized_Price",
+    hue="Ticker"
+)
+plt.title("Benchmark Performance: 2010-2015")
+plt.xlabel("Date")
+plt.ylabel("Normalized Adjusted Price (Base = 100)")
+plt.legend(title="Benchmark")
+plt.show()
+
+
+# =============================================================================
+# 16. COMPARE SELECTED STOCK PERFORMANCE
+# =============================================================================
+# Select a sample of stocks from different sectors.
+# Normalize their adjusted prices to a starting value of 100.
+
+selected_stocks = [
+    "AAPL", "MSFT", "JPM", "XOM",
+    "JNJ", "AMZN", "KO", "CAT"
+]
+
+selected_data = market_data[
+    market_data["Ticker"].isin(selected_stocks)
+].copy()
+
+selected_data["Normalized_Price"] = (
+    selected_data.groupby("Ticker")["Adj Close"]
+    .transform(lambda values: values / values.dropna().iloc[0] * 100)
+)
+
+plt.figure(figsize=(16, 8))
+sns.lineplot(
+    data=selected_data,
+    x="Date",
+    y="Normalized_Price",
+    hue="Ticker"
+)
+plt.title("Normalized Stock Performance (2010-2015)")
+plt.ylabel("Normalized Price (Base = 100)")
+plt.xlabel("Date")
+plt.show()
+
+
+# =============================================================================
+# 17. VISUALIZE DAILY RETURN DISTRIBUTIONS
+# =============================================================================
+# Compare daily return distributions for selected stocks and SPY.
+#
+# A histogram shows how frequently different daily return ranges occurred.
+# Density normalization allows comparison between tickers.
+# The displayed x-axis is limited to -10% through +10% for readability.
+# Observations outside that range are not removed from market_data.
+
+distribution_tickers = ["AAPL", "MSFT", "SPY", "AMZN", "XOM"]
+
+selected_returns = market_data[
+    market_data["Ticker"].isin(distribution_tickers)
+]
+
+plt.figure(figsize=(15, 8))
+sns.histplot(
+    data=selected_returns,
+    x="Daily_Return",
+    hue="Ticker",
+    bins=120,
+    element="step",
+    stat="density",
+    common_norm=False,
+    alpha=0.25
+)
+plt.title("Daily Return Distributions")
+plt.xlabel("Daily Return")
+plt.ylabel("Density")
+plt.xlim(-0.10, 0.10)
+plt.show()
+
+
+# =============================================================================
+# 18. ANNUALIZED VOLATILITY BY STOCK
+# =============================================================================
+# Volatility is measured using the standard deviation of daily returns.
+#
+# Annualized Volatility = daily standard deviation * sqrt(252)
+#
+# Benchmarks are excluded so this chart compares individual stocks.
+
+stock_volatility = (
+    market_data[
+        market_data["Sector"] != "Benchmark"
+    ]
+    .groupby("Ticker")["Daily_Return"]
+    .std() * np.sqrt(252)
+).dropna().sort_values(ascending=False)
+
+plt.figure(figsize=(18, 7))
+sns.barplot(x=stock_volatility.index, y=stock_volatility.values)
+plt.xticks(rotation=90)
+plt.title("Annualized Volatility by Stock")
+plt.xlabel("Ticker")
+plt.ylabel("Annualized Volatility")
+plt.tight_layout()
+plt.show()
+
+
+# =============================================================================
+# 19. 21-DAY ROLLING ANNUALIZED VOLATILITY
+# =============================================================================
+# Calculate volatility over a moving window of 21 trading days.
+# This is approximately one trading month.
+#
+# Rolling_Volatility = 21-day standard deviation * sqrt(252)
+#
+# This chart shows how volatility changes over time rather than displaying
+# only one volatility number for the entire period.
+
+rolling_stocks = ["AAPL", "MSFT", "SPY", "AMZN", "XOM"]
+
+fig, axes = plt.subplots(
+    len(rolling_stocks),
+    1,
+    figsize=(15, 15),
+    sharex=True
+)
+
+for ax, ticker in zip(axes, rolling_stocks):
+    df = market_data[
+        market_data["Ticker"] == ticker
+    ].copy()
+
+    df["Rolling_Volatility"] = (
+        df["Daily_Return"]
+        .rolling(21)
+        .std() * np.sqrt(252)
+    )
+
+    ax.plot(df["Date"], df["Rolling_Volatility"])
+    ax.set_title(f"{ticker}: 21-Day Rolling Volatility")
+    ax.set_ylabel("Annualized Volatility")
+
+plt.xlabel("Date")
+plt.tight_layout()
+plt.show()
+
+
+# =============================================================================
+# 20. CORRELATION BETWEEN STOCK DAILY RETURNS
+# =============================================================================
+# Convert the long-format dataset into a wide-format return matrix.
+#
+# Rows    = trading dates
+# Columns = ticker symbols
+# Values  = daily returns
+#
+# Pearson correlation ranges from -1 to +1:
+# +1 = perfectly positive linear relationship
+#  0 = no linear correlation
+# -1 = perfectly negative linear relationship
+#
+# min_periods=100 requires at least 100 paired observations.
+# Correlation describes co-movement; it does not establish causation.
+
+return_matrix = market_data.pivot(
+    index="Date",
+    columns="Ticker",
+    values="Daily_Return"
+)
+
+stock_matrix = return_matrix.drop(
+    columns=benchmarks,
+    errors="ignore"
+)
+
+correlation_matrix = stock_matrix.corr(min_periods=100)
+
+plt.figure(figsize=(18, 14))
+sns.heatmap(
+    correlation_matrix,
+    cmap="coolwarm",
+    center=0,
+    vmin=-1,
+    vmax=1,
+    linewidths=0.1
+)
+plt.title("Stock Daily Return Correlation Matrix")
+plt.tight_layout()
+plt.show()
+
+
+# =============================================================================
+# 21. AVERAGE CORRELATION WITHIN EACH SECTOR
+# =============================================================================
+# For each sector:
+# 1. Select the stocks in that sector.
+# 2. Calculate their pairwise return correlations.
+# 3. Keep only the upper triangle to avoid counting pairs twice.
+# 4. Calculate the average pairwise correlation.
+#
+# sector_corr_df contains:
+# Sector = sector name
+# Average_Correlation = average pairwise correlation
+
+sector_correlations = {}
+
+for sector, stocks in sector_universes.items():
+    available = [
+        ticker for ticker in stocks
+        if ticker in stock_matrix.columns
+    ]
+
+    if len(available) < 2:
+        continue
+
+    sector_corr = stock_matrix[available].corr()
+
+    upper_triangle = sector_corr.where(
+        np.triu(
+            np.ones(sector_corr.shape),
+            k=1
+        ).astype(bool)
+    )
+
+    sector_correlations[sector] = upper_triangle.stack().mean()
+
+sector_corr_df = pd.DataFrame({
+    "Sector": list(sector_correlations.keys()),
+    "Average_Correlation": list(sector_correlations.values())
+}).sort_values("Average_Correlation", ascending=False)
+
+display(sector_corr_df)
+
+plt.figure(figsize=(13, 7))
+sns.barplot(
+    data=sector_corr_df,
+    x="Average_Correlation",
+    y="Sector"
+)
+plt.title("Average Within-Sector Stock Correlation")
+plt.show()
+
+
+# =============================================================================
+# 22. DAILY TRADING VOLUME
+# =============================================================================
+# Volume represents the number of shares traded during a trading day.
+# This section plots daily volume for selected stocks and one benchmark.
+#
+# Volume counts shares traded, not dollar turnover.
+
+volume_stocks = ["AAPL", "MSFT", "SPY", "AMZN"]
+
+fig, axes = plt.subplots(2, 2, figsize=(16, 10))
+
+for ax, ticker in zip(axes.flatten(), volume_stocks):
+    df = market_data[
+        market_data["Ticker"] == ticker
+    ]
+
+    ax.plot(df["Date"], df["Volume"], linewidth=0.8)
+    ax.set_title(f"{ticker}: Daily Trading Volume")
+    ax.set_ylabel("Shares Traded")
+    ax.set_xlabel("Date")
+
+plt.tight_layout()
+plt.show()
+
+
+# =============================================================================
+# 23. RELATIVE VOLUME
+# =============================================================================
+# Calculate the average volume over the previous 20 trading observations.
+#
+# Average_Volume_20 = 20-day rolling average of volume
+# Relative_Volume = current volume / 20-day average volume
+#
+# Relative volume interpretation:
+# Above 1 = volume is above its recent average
+# Equal to 1 = volume equals its recent average
+# Below 1 = volume is below its recent average
+#
+# The first 19 observations generally have missing rolling averages.
+
+market_data["Average_Volume_20"] = (
+    market_data.groupby("Ticker")["Volume"]
+    .transform(lambda values: values.rolling(20).mean())
+)
+
+market_data["Relative_Volume"] = (
+    market_data["Volume"] /
+    market_data["Average_Volume_20"]
+)
+
+aapl_volume = market_data[
+    market_data["Ticker"] == "AAPL"
+]
+
+plt.figure(figsize=(15, 6))
+plt.plot(
+    aapl_volume["Date"],
+    aapl_volume["Relative_Volume"]
+)
+plt.axhline(1, linestyle="--", color="black")
+plt.title("AAPL Relative Trading Volume")
+plt.xlabel("Date")
+plt.ylabel("Volume / 20-Day Average")
+plt.show()
+
+
+# =============================================================================
+# 24. EQUAL-WEIGHTED SECTOR PERFORMANCE
+# =============================================================================
+# Exclude benchmark ETFs and calculate the average daily stock return
+# for each sector.
+#
+# Sector_Return = average daily return across stocks in that sector
+# Sector_Growth = 1 + Sector_Return
+# Cumulative_Return = compounded growth of an initial $1
+#
+# This is a simple equal-weighted sector proxy, not an official sector index.
+
+stock_data = market_data[
+    market_data["Sector"] != "Benchmark"
+].copy()
+
+sector_daily_returns = (
+    stock_data.groupby(["Date", "Sector"])["Daily_Return"]
+    .mean()
+    .reset_index(name="Sector_Return")
+)
+
+sector_daily_returns = sector_daily_returns.dropna()
+
+sector_daily_returns["Sector_Growth"] = (
+    1 + sector_daily_returns["Sector_Return"]
+)
+
+sector_daily_returns["Cumulative_Return"] = (
+    sector_daily_returns.groupby("Sector")["Sector_Growth"]
+    .cumprod()
+)
+
+plt.figure(figsize=(16, 8))
+sns.lineplot(
+    data=sector_daily_returns,
+    x="Date",
+    y="Cumulative_Return",
+    hue="Sector"
+)
+plt.title("Equal-Weighted Sector Performance (2010-2015)")
+plt.xlabel("Date")
+plt.ylabel("Growth of $1")
+plt.legend(bbox_to_anchor=(1.02, 1), loc="upper left")
+plt.tight_layout()
+plt.show()
+
+
+# =============================================================================
+# 25. ANNUALIZED VOLATILITY BY SECTOR
+# =============================================================================
+# Calculate the standard deviation of each sector's daily return series.
+#
+# Annualized sector volatility = daily standard deviation * sqrt(252)
+#
+# This compares the historical volatility of the selected sectors.
+
+sector_volatility = (
+    sector_daily_returns.groupby("Sector")["Sector_Return"]
+    .std() * np.sqrt(252)
+).sort_values(ascending=False)
+
+plt.figure(figsize=(13, 7))
+sns.barplot(
+    x=sector_volatility.values,
+    y=sector_volatility.index
+)
+plt.title("Annualized Volatility by Sector")
+plt.xlabel("Annualized Volatility")
+plt.ylabel("Sector")
+plt.show()
+
+
+# =============================================================================
+# 26. ANNUAL STOCK RETURNS
+# =============================================================================
+# For each ticker and calendar year, find the first and last adjusted closing
+# prices in the downloaded observations.
+#
+# Annual_Return = last adjusted close / first adjusted close - 1
+#
+# annual_returns is a long-format DataFrame.
+# annual_pivot is a wide-format DataFrame:
+# Rows = tickers
+# Columns = years
+# Values = annual returns
+#
+# This uses the first and last available observations within each year.
+
+annual_returns = (
+    market_data
+    .groupby(
+        ["Ticker", pd.Grouper(key="Date", freq="YE")]
+    )["Adj Close"]
+    .agg(["first", "last"])
+    .reset_index()
+)
+
+annual_returns["Annual_Return"] = (
+    annual_returns["last"] /
+    annual_returns["first"] - 1
+)
+
+annual_returns["Year"] = annual_returns["Date"].dt.year
+
+annual_pivot = annual_returns.pivot(
+    index="Ticker",
+    columns="Year",
+    values="Annual_Return"
+)
+
+display(annual_pivot.round(4))
+
+plt.figure(figsize=(13, 12))
+sns.heatmap(
+    annual_pivot,
+    cmap="RdYlGn",
+    center=0,
+    annot=False
+)
+plt.title("Annual Stock Returns: 2010-2015")
+plt.xlabel("Year")
+plt.ylabel("Ticker")
+plt.show()
+
+
+# =============================================================================
+# 27. EXPORT THE DATASETS
+# =============================================================================
+# Export the final datasets in CSV and Parquet formats.
+#
+# CSV:
+# Human-readable format that can be opened in Excel or Google Sheets.
+#
+# Parquet:
+# Efficient columnar format that is useful for analytical Python workflows.
+#
+# Three files are generated:
+# 1. us_equity_market_2010_2015.csv
+# 2. us_equity_market_2010_2015.parquet
+# 3. sector_returns_2010_2015.parquet
+
+market_data.to_csv(
+    "us_equity_market_2010_2015.csv",
+    index=False
+)
+
+market_data.to_parquet(
+    "us_equity_market_2010_2015.parquet",
+    index=False
+)
+
+sector_daily_returns.to_parquet(
+    "sector_returns_2010_2015.parquet",
+    index=False
+)
+
+print("Export completed.")
+print("1. us_equity_market_2010_2015.csv")
+print("2. us_equity_market_2010_2015.parquet")
+print("3. sector_returns_2010_2015.parquet")
+
+
+# =============================================================================
+# 28. FINAL DATASET OVERVIEW
+# =============================================================================
+# Print a final summary of the dataset.
+#
+# Includes:
+# Total observations
+# Number of unique tickers
+# Number of unique trading dates
+# Actual date range
+# Number of stocks and benchmarks
+# Missing adjusted prices
+# Duplicate ticker-date observations
+
+print("=" * 60)
+print("US EQUITY MARKET DATASET: 2010-2015")
+print("=" * 60)
+
+print(f"Total observations: {len(market_data):,}")
+print(f"Unique tickers: {market_data['Ticker'].nunique()}")
+print(f"Unique dates: {market_data['Date'].nunique()}")
+print(f"Start date: {market_data['Date'].min()}")
+print(f"End date: {market_data['Date'].max()}")
+
+print(
+    "Total stocks:",
+    market_data[
+        market_data["Sector"] != "Benchmark"
+    ]["Ticker"].nunique()
+)
+
+print(
+    "Benchmarks:",
+    market_data[
+        market_data["Sector"] == "Benchmark"
+    ]["Ticker"].unique().tolist()
+)
+
+print(
+    "Missing adjusted prices:",
+    market_data["Adj Close"].isna().sum()
+)
+
+print(
+    "Duplicate observations:",
+    market_data.duplicated(["Date", "Ticker"]).sum()
+)
+
+print("=" * 60)
+
+# Display a random sample of the final combined dataset.
+display(market_data.sample(min(10, len(market_data))))
+
+
+# =============================================================================
+# END OF SCRIPT
+# =============================================================================
